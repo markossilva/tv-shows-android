@@ -94,12 +94,14 @@ dependencies {
     implementation(libs.androidx.compose.ui.ui.graphics) // ("androidx.compose.ui:ui-graphics")
     implementation(libs.androidx.compose.ui.ui.tooling.preview) //("androidx.compose.ui:ui-tooling-preview")
     implementation(libs.androidx.compose.material3) //("androidx.compose.material3:material3")
+    implementation(libs.androidx.navigation.compose)
     testImplementation(libs.junit) //("junit:junit:4.13.2")
     androidTestImplementation(libs.androidx.test.ext.junit) //("androidx.test.ext:junit:1.1.5")
     androidTestImplementation(libs.androidx.test.espresso.espresso.core)// ("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation(libs.androidx.compose.ui.ui.test.junit4) //("androidx.compose.ui:ui-test-junit4")
     debugImplementation(libs.androidx.compose.ui.ui.tooling) //("androidx.compose.ui:ui-tooling")
     debugImplementation(libs.androidx.compose.ui.ui.test.manifest) // ("androidx.compose.ui:ui-test-manifest")
+    implementation(libs.androidx.compose.materialWindow)
 }
 
 tasks.withType<Test>().configureEach {
