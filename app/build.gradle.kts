@@ -1,16 +1,16 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.com.android.application)
+    alias(libs.plugins.org.jetbrains.kotlin.android)
 }
 
 android {
+    compileSdk = libs.versions.compileSdk.get().toInt()
     namespace = "br.com.mks.tvshows"
-    compileSdk = 33
 
     defaultConfig {
         applicationId = "br.com.mks.tvshows"
-        minSdk = 24
-        targetSdk = 33
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
 
@@ -62,8 +62,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
 
@@ -71,8 +71,9 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.3.2"
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
+    buildToolsVersion = "33.0.2"
     packaging.resources {
         // Multiple dependency bring these files in. Exclude them to enable
         // our test APK to build (has no effect on our AARs)
@@ -82,21 +83,25 @@ android {
 }
 
 dependencies {
-    val composeBom = platform("androidx.compose:compose-bom:2023.01.00")
-
-    implementation("androidx.core:core-ktx:1.8.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
-    implementation("androidx.activity:activity-compose:1.5.1")
+    val composeBom = platform(libs.androidx.compose.compose.bom)
     implementation(composeBom)
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation(composeBom)
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+    implementation(libs.androidx.core.core.ktx) // ("androidx.core:core-ktx:1.8.0")
+    implementation(libs.androidx.lifecycle.lifecycle.runtime.ktx) //("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
+    implementation(libs.androidx.activity.activity.compose) //("androidx.activity:activity-compose:1.5.1")
+    implementation(libs.androidx.compose.ui) //("androidx.compose.ui:ui")
+    implementation(libs.androidx.compose.ui.ui.graphics) // ("androidx.compose.ui:ui-graphics")
+    implementation(libs.androidx.compose.ui.ui.tooling.preview) //("androidx.compose.ui:ui-tooling-preview")
+    implementation(libs.androidx.compose.material3) //("androidx.compose.material3:material3")
+    testImplementation(libs.junit) //("junit:junit:4.13.2")
+    androidTestImplementation(libs.androidx.test.ext.junit) //("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation(libs.androidx.test.espresso.espresso.core)// ("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation(libs.androidx.compose.ui.ui.test.junit4) //("androidx.compose.ui:ui-test-junit4")
+    debugImplementation(libs.androidx.compose.ui.ui.tooling) //("androidx.compose.ui:ui-tooling")
+    debugImplementation(libs.androidx.compose.ui.ui.test.manifest) // ("androidx.compose.ui:ui-test-manifest")
+}
+
+tasks.withType<Test>().configureEach {
+    systemProperties.put("robolectric.logging", "stdout")
 }
